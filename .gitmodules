@@ -1,0 +1,3 @@
+[submodule "deps/Netron"]
+	path = deps/Netron
+	url = https://github.com/lutzroeder/Netron.git
