@@ -48,15 +48,15 @@ export default class LearnView extends React.Component<{}, IComponentState> {
   }
 
   private onClickHandler = (e: React.MouseEvent<HTMLElement>, item?: INavLink) => {
-    if (item) {
-      fetch(item.key)
-        .then(response => response.text())
-        .then((filecontents) => {
-          this.setState({
-            markdownSrc: filecontents,
-          });
-        });
-    }
-    return false;
+    // if (item) {
+    //   fetch(item.key)
+    //     .then(response => response.text())
+    //     .then((filecontents) => {
+    //       this.setState({
+    //         markdownSrc: filecontents,
+    //       });
+    //     });
+    // }
+    // return false;
   }
 }

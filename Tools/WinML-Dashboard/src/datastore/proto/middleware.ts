@@ -4,13 +4,13 @@ import { ModelProtoSingleton } from './modelProto';
 export const protoMiddleware = (store: any) => (next: (action: IAction) => any) => (action: IAction) => {
     switch (action.type) {
         case SET_INPUTS:
-            ModelProtoSingleton.setInputs(action.inputs);
+            ModelProtoSingleton.setInputs(action.inputs!);
             break;
         case SET_METADATA_PROPS:
-            ModelProtoSingleton.setMetadata(action.metadataProps);
+            ModelProtoSingleton.setMetadata(action.metadataProps!);
             break;
         case SET_OUTPUTS:
-            ModelProtoSingleton.setOutputs(action.outputs);
+            ModelProtoSingleton.setOutputs(action.outputs!);
             break;
     }
     return next(action);

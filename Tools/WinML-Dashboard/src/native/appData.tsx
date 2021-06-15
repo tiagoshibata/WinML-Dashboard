@@ -9,7 +9,7 @@ export const appData = env.APPDATA ||
 
 export function mkdir(...directory: string[]) {
     const joined = path.join(...directory);
-    if (fs.exists && !fs.existsSync(joined)) {  // skips if running in the web
+    if (typeof fs.exists === 'function' && !fs.existsSync(joined)) {  // skips if running in the web
         fs.mkdirSync(joined);
     }
     return joined;
@@ -21,4 +21,4 @@ export function packagedFile(...filePath: string[]) {
 }
 
 // Point to the root if running in the web
-export const winmlDataFolder = fs.exists ? mkdir(appData, 'winml-dashboard') : '/';
+export const winmlDataFolder = typeof fs.exists === 'function' ? mkdir(appData, 'winml-dashboard') : '/';

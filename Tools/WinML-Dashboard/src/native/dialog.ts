@@ -18,15 +18,15 @@ export function showWebOpenDialog(accept: string) {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', accept);
-    return new Promise<FileList>(resolve => {
-        input.addEventListener('change', () => resolve(input.files || undefined));
+    return new Promise<FileList | null>(resolve => {
+        input.addEventListener('change', () => resolve(input.files));
         input.click();
     });
 }
 
 export function showNativeOpenDialog(options: Electron.OpenDialogOptions) {
     const { dialog } = getElectron().remote;
-    return new Promise<string[]>(resolve => dialog.showOpenDialog(options, resolve));
+    return new Promise<string[]>(resolve => dialog.showOpenDialog(options).then(result => resolve(result.filePaths)));
 }
 
 export function populateFileFields(fileLikeObject: any, filePath: string) {
@@ -71,7 +71,7 @@ export function showWebSaveDialog(data: Uint8Array, filename: string) {
 
 export function showNativeSaveDialog(options: Electron.SaveDialogOptions) {
     const { dialog } = getElectron().remote;
-    return new Promise<string>(resolve => dialog.showSaveDialog(options, resolve));
+    return new Promise<string>(resolve => dialog.showSaveDialog(options).then(result => resolve(result.filePath || '')));
 }
 
 export async function save(data: Uint8Array, filename: string, filters: Electron.FileFilter[]) {

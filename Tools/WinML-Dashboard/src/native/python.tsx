@@ -92,7 +92,7 @@ export async function downloadPython() {
     if (process.platform !== 'win32') {
         throw Error('Unsupported platform');
     }
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         try {
             const data = await downloadBinaryFile('https://www.python.org/ftp/python/3.6.6/python-3.6.6-embed-amd64.zip') as Buffer;
             await unzip(data, localPython);
@@ -106,7 +106,7 @@ export async function downloadPython() {
 
 export async function downloadPip(listener?: IOutputListener) {
     // Python embedded distribution for Windows doesn't have pip
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         const installer = path.join(localPython, 'get-pip.py');
         try {
             const data = await downloadBinaryFile('https://bootstrap.pypa.io/get-pip.py') as Buffer;
@@ -129,11 +129,15 @@ interface IOutputListener {
 }
 
 async function execFilePromise(file: string, args: string[], options?: ExecFileOptions, listener?: IOutputListener) {
-    const run = async () => new Promise((resolve, reject) => {
+    const run = async () => new Promise<void>((resolve, reject) => {
         const childProcess = execFile(file, args, {...options});
         if (listener) {
-            childProcess.stdout.on('data', listener.stdout);
-            childProcess.stderr.on('data', listener.stderr);
+            if (childProcess.stdout) {
+                childProcess.stdout.on('data', listener.stdout);
+            }
+            if (childProcess.stderr) {
+                childProcess.stderr.on('data', listener.stderr);    
+            }
         }
         childProcess.on('exit', (code, signal) => {
             if (code !== 0) {

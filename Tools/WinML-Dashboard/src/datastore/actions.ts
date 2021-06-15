@@ -12,18 +12,18 @@ export const SET_SAVE_FILE_NAME = 'SET_SAVE_FILE_NAME';
 export const SET_SELECTED_NODE = 'SET_SELECTED_NODE';
 
 export interface IAction {
-    file: File,
-    nodes: { [key: string]: any },
-    saveFileName: string,
+    file?: File,
+    nodes?: { [key: string]: any },
+    saveFileName?: string,
     type: string,
 
-    inputs: any[],
-    outputs: any[],
+    inputs?: any[],
+    outputs?: any[],
 
-    modelInputs: string[],
-    modelOutputs: string[],
+    modelInputs?: string[],
+    modelOutputs?: string[],
 
-    metadataProps: IMetadataProps,
-    properties: IProperties,
-    selectedNode: string,
+    metadataProps?: IMetadataProps,
+    properties?: IProperties,
+    selectedNode?: string,
 }
